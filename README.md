@@ -1,24 +1,59 @@
-# README
+# Ruby on Rails API + JWT Authentication Example
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Simple Reference for learning how to implement a basic Ruby on Rails API with JWT Authentication.
 
-Things you may want to cover:
+# UsersControllers
 
-* Ruby version
+UserControllers provides the JWT authorization controller.
 
-* System dependencies
+```ruby
+before action => check authorization on auto_login
+```
 
-* Configuration
+## Encode Payload with s3cr3t
 
-* Database creation
+_WARN: Don't use hardcoded secrets on production!_
 
-* Database initialization
+Makes a request via _{ Authorization: 'Bearer <token>' }_
+and start decoding JWT and also verify validation.
 
-* How to run the test suite
+```
+=> If could not decode, in this case it returns nil
 
-* Services (job queues, cache servers, search engines, etc.)
+=> Once you decoded, find the user id into database
+```
 
-* Deployment instructions
+<!-- prettier-ignore-start -->
+## Register:
 
-* ...
+**NOTE:** This is only a pseudo-code
+```ruby
+POST => {
+  Authorization: 'Bearer <token>',
+  username: string,
+  password: string,
+  age: number
+}
+
+Checks validations
+  => Encode token session and send { @user, token: JWT::Payload }
+  => ELSE:
+    => Returns `Invalid username or password `
+```
+
+## Login:
+```ruby
+POST => {
+  Authorization: 'Bearer <token>',
+  username: string,
+  password: string
+}
+
+Find the user in database,
+IF user exists
+  => authenticate as:
+      (password: string => BCryptHash) == (password_digest: BCryptHash).
+
+  => Returns { @user, token: JWT::Payload }
+```
+<!-- prettier-ignore-end -->
