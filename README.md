@@ -17,10 +17,10 @@ _WARN: Don't use hardcoded secrets on production!_
 Makes a request via _{ Authorization: 'Bearer <token>' }_
 and start decoding JWT and also verify validation.
 
-```
+```ruby
 => If could not decode, in this case it returns nil
 
-=> Once you decoded, find the user id into database
+=> Once you decoded, find the `user_id` into database
 ```
 
 <!-- prettier-ignore-start -->
